@@ -1,0 +1,39 @@
+<launch>
+	<arg name="debug" default="false" />
+	<arg name="xtion" default="false" />
+	<arg name="kinect" default="false" />
+	<arg name="camera_link_pose" default="0.15 0.075 0.5 0.0 0.7854 0.0"/>
+	<arg name="config" default="true"/>
+	<!-- Load the URDF, SRDF and other .yaml configuration files on the param server -->
+	<include file="$(find sawyer_wsg_moveit)/launch/planning_context.launch">
+		<arg name="load_robot_description" value="true"/>
+	</include>
+
+	<!--Joint state publisher -->
+	<!--<remap from="joint_states" to="robot/joint_states"/>-->
+	<node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
+		<rosparam param="source_list">["wsg_50_driver/joint_states","robot/joint_states"]</rosparam>
+		<rosparam param="rate">1000</rosparam>
+	</node>
+
+	<!--Robot State publisher -->
+	<node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="true" output="screen" />
+
+	<!-- Move group -->
+	<include file="$(find sawyer_moveit_config)/launch/move_group.launch">
+		<arg name="kinect" value="$(arg kinect)" />
+		<arg name="xtion" value="$(arg xtion)" />
+		<arg name="camera_link_pose" default="$(arg camera_link_pose)"/>
+		<arg name="allow_trajectory_execution" value="true"/>
+		<arg name="fake_execution" value="false"/>
+		<arg name="info" value="true"/>
+		<arg name="debug" value="$(arg debug)"/>
+	</include>
+
+	<!--Launch Rviz-->
+	<include file="$(find sawyer_moveit_config)/launch/moveit_rviz.launch">
+		<arg name="config" value="$(arg config)" />
+		<arg name="debug" value="$(arg debug)"/>
+	</include>
+
+</launch>

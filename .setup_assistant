@@ -1,0 +1,11 @@
+moveit_setup_assistant_config:
+  URDF:
+    package: sawyer_description
+    relative_path: urdf/sawyer.urdf.xacro
+    xacro_args: --inorder wsg:=true
+  SRDF:
+    relative_path: config/sawyer.srdf
+  CONFIG:
+    author_name: rpad
+    author_email: todo@gmail.com
+    generated_timestamp: 1579471029
