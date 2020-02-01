@@ -26,7 +26,7 @@
 
   <!-- WSG -->
   <xacro:if value="$(arg wsg)">
-  <xacro:include filename="$(find foresight_rospkg)/../envs/robot_envs/grippers/weiss/wsg50_xml/wsg_50.urdf.xacro">
+  <xacro:include filename="$(find sawyer_wsg_moveit)/urdf_backup/wsg_50_urdf.xacro">
     <xacro:arg name="gazebo" value="${gazebo}"/>
   </xacro:include>
   <xacro:wsg_50_xacro name="wsg50" parent="right_hand"/>
